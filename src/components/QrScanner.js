@@ -24,6 +24,13 @@ export default function QrScanner() {
     const newValue = event.target.value;
     setSelectedValue(newValue);
     // Here you can make a PUT or POST request to your server to update the database with the new value
+    axios.put(`/api/status/${id}`, { id: newValue })
+    .then(response => {
+      console.log(response.data);
+    })
+    .catch(error => {
+      console.log(error);
+    });
   };
 
   const [data, setData] = useState({});
@@ -38,7 +45,6 @@ export default function QrScanner() {
         console.log(error);
       });
   }, [id]);
-
   return (
     <div>
       <div className="text-center mt-2 mt-sm-4 mt-md-5">
@@ -52,88 +58,60 @@ export default function QrScanner() {
 
       <br />
       <br />
-      <form>
-        <div className="form-group row">
-          <label htmlFor="inputPassword" className="col-sm-2 col-form-label">
-            Phone Number :
-          </label>
-          <div className="col-sm-10">
-            <input
-              type="text"
-              className="form-control"
-              id="inputID"
-              placeholder="Phone Number"
-              defaultValue={id ? id.text : ""}
-              onChange={(e) => setId(e.target.value)}
-              readOnly
-            />
-          </div>
-        </div>
-        <br />
-        <div className="form-group row">
-          <label htmlFor="staticEmail" className="col-sm-2 col-form-label">
-            Name :
-          </label>
-          <div className="col-sm-10">
-            <input
-              type="text"
-              className="form-control"
-              id="staticEmail"
-              placeholder="Name"
-              value={data.name}
-              readOnly
-            />
-          </div>
-        </div>
-        <br />
-        <div className="form-group row">
-          <label htmlFor="inputBranch" className="col-sm-2 col-form-label">
-            Branch :
-          </label>
-          <div className="col-sm-10">
-            <input
-              type="text"
-              className="form-control"
-              id="inputPassword"
-              placeholder="Branch"
-              value={data.branch}
-              readOnly
-            />
-          </div>
-        </div>
-        <br />
-        <div className="form-group row">
-          <label htmlFor="inputPassword" className="col-sm-2 col-form-label">
-            Item Collected :
-          </label>
-          <div className="col-sm-10">
-            <div>
-              <label>
-                <input
-                  type="radio"
-                  name="yesNoRadioButtons"
-                  value="yes"
-                  checked={selectedValue === "yes"}
-                  onChange={handleOptionChange}
-                />
-                Yes
-              </label>
-              <br />
-              <label>
-                <input
-                  type="radio"
-                  name="yesNoRadioButtons"
-                  value="no"
-                  checked={selectedValue === "no"}
-                  onChange={handleOptionChange}
-                />
-                No
-              </label>
+      <div>
+        <form>
+          <div className="form-group row">
+            <label htmlFor="inputId" className="col-sm-2 col-form-label">
+              Phone Number :
+            </label>
+            <div className="col-sm-10">
+              <input
+                type="text"
+                className="form-control"
+                id="inputId"
+                placeholder="Phone Number"
+                defaultValue={id ? id.text : ""}
+                onChange={(e) => setId(e.target.value)}
+                readOnly
+              />
             </div>
           </div>
+          <br />
           <div className="form-group row">
-            <label htmlFor="inputPassword" className="col-sm-2 col-form-label">
-              Attendance :
+            <label htmlFor="name" className="col-sm-2 col-form-label">
+              Name :
+            </label>
+            <div className="col-sm-10">
+              <input
+                type="text"
+                className="form-control"
+                id="name"
+                placeholder="Name"
+                value={data.name}
+                readOnly
+              />
+            </div>
+          </div>
+          <br />
+          <div className="form-group row">
+            <label htmlFor="branch" className="col-sm-2 col-form-label">
+              Branch :
+            </label>
+            <div className="col-sm-10">
+              <input
+                type="text"
+                className="form-control"
+                id="branch"
+                placeholder="Branch"
+                value={data.branch}
+                readOnly
+              />
+            </div>
+          </div>
+          <br />
+          <div className="form-group row">
+            <label htmlFor="itemCollected" className="col-sm-2 col-form-label">
+              Item Collected :
             </label>
             <div className="col-sm-10">
               <div>
@@ -160,14 +138,47 @@ export default function QrScanner() {
                 </label>
               </div>
             </div>
+            <div className="form-group row">
+              <label
+                htmlFor="inputPassword"
+                className="col-sm-2 col-form-label"
+              >
+                Attendance :
+              </label>
+              <div className="col-sm-10">
+                <div>
+                  <label>
+                    <input
+                      type="radio"
+                      name="yesNoRadioButtons"
+                      value="yes"
+                      checked={selectedValue === "yes"}
+                      onChange={handleOptionChange}
+                    />
+                    Yes
+                  </label>
+                  <br />
+                  <label>
+                    <input
+                      type="radio"
+                      name="yesNoRadioButtons"
+                      value="no"
+                      checked={selectedValue === "no"}
+                      onChange={handleOptionChange}
+                    />
+                    No
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div className="text-center">
+              <button type="button" className="btn btn-primary ">
+                UPDATE
+              </button>
+            </div>
           </div>
-          <div className="text-center">
-            <button type="button" className="btn btn-primary ">
-              UPDATE
-            </button>
-          </div>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
   );
 }
